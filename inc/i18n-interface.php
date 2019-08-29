@@ -8,7 +8,7 @@ define( 'TRANSLATE_SHOW_EMPTY', 4 );
  * Interface WP_Translator
  *
  * Designed as interface for other plugin integration. The documentation is available at
- * https://qtranslatexteam.wordpress.com/integration/
+ * https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide
  *
  * It is recommended to only use the functions listed here when developing a 3rd-party integration.
  * It is not recommended to access global variables directly.
@@ -52,17 +52,17 @@ interface WP_Translator {
 	public static function get_translator();
 
 	/**
-	 * @since 3.4.6.9
 	 * @return string two-letter code of active language.
+	 * @since 3.4.6.9
 	 */
 	public function get_language();
 
 	/**
-	 * @since 3.4.6.9
-	 *
 	 * @param string $lang two-letter code of language to be set as active. Further translations will be to this language unless desired languge is specified.
 	 *
 	 * @return string two-letter code of new active language.
+	 * @since 3.4.6.9
+	 *
 	 */
 	public function set_language( $lang );
 

@@ -3,16 +3,16 @@ Developed by: new qTranslate community, from qTranslate-X by John Clause and qTr
 Contributors: herrvigg, johnclause, chineseleper, Vavooon, grafcom  
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, translation  
 Requires: 4.0  
-Tested up to: 5.0.3  
+Tested up to: 5.2.2  
 Stable tag: N/A  
 License: GPLv3 or later  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 
-Adds a user-friendly multilingual dynamic content management.
+Adds user-friendly multilingual content support, stored in single post.
 
 ## Description
 
-The qTranslate-XT plugin is an *eXTended* version of qTranslate-X that we are trying to revive through a new community, since the [original plugin](https://wordpress.org/plugins/qtranslate-x/) is abandoned by its author. Our first goal is to maintain the essential features of this plugin with the last Wordpress and PHP updates. The migration to Gutenberg will be a critical milestone for the survival of this plugin. We are currently building a [new organization](https://github.com/qtranslate) to give qTranslate a new life. Let's try together, anyone is welcome to participate!
+The qTranslate-XT plugin is an *eXTended* version of qTranslate-X that we are reviving with a new community, since the [original plugin](https://wordpress.org/plugins/qtranslate-x/) is abandoned by its author. Our first goal is to maintain the essential features of this plugin with the last Wordpress and PHP updates. The migration to Gutenberg will be a critical milestone for the survival of this plugin. We are currently building a [new organization](https://github.com/qtranslate) to give qTranslate a new life. Let's try together, anyone is welcome to participate!
 
 GitHub repository of the new repo: [https://github.com/qtranslate/qtranslate-xt.git](https://github.com/qtranslate/qtranslate-xt).
 
@@ -42,16 +42,23 @@ Yes and it's very easy! Currently you can have both qTranslate-X and qTranslate-
 
 *Disclaimer: we cannot guarantee that all the functionalites are preserved and the installation is at your own responsibility. Be sure to backup your database regularly.*
 
-### Is WooCommerce supported? ###
-WooCommerce was supported in qTranslate-X through a separate [add-on](https://github.com/qTranslate-Team/woocommerce-qtranslate-x). Since it is quite a small plugin it should definitely be possible to make it work well with qTranslate-XT. Here we need developers who are able to test it properly!
+### Is the block editor (Gutenberg) supported? ###
+Not yet. Some work is in progress but don't expect this soon.
+
+### Is WooCommerce, ACF, ... supported? ###
+WooCommerce, ACF and other plugins are now supported as built-in modules. Developers able to test properly are much welcome! Please send PR for bug fixes.
+See the complete list of [available modules](https://github.com/qtranslate/qtranslate-xt/tree/master/modules) in our repo.
+
+### Is any plugin/themes supported? ###
+Some major plugins are now supported with the built-in modules. Some plugins are also supported with built-in i18n configurations. For other plugins you need to provide custom integration through i18n configuration (json) and/or code (PHP/JS). A major refactoring is needed to make this easier.
 
 ### I'm new to qTranslate, where can I find detailed instructions for startup?
-Check the legacy website:
+Check our [Wiki pages](https://github.com/qtranslate/qtranslate-xt/wiki):
 
-* For the new installers, it may be useful to read [Startup Guide](https://qtranslatexteam.wordpress.com/startup-guide/ "Startup Guide").
-* It is important to read [migration instructions](https://qtranslatexteam.wordpress.com/migration/ "Migration Guide"), if you previously used other multilingual plugin.
-* Read [Integration Guide](https://qtranslatexteam.wordpress.com/integration/ "Integration Guide") when you need to make theme or other plugin custom fields to be multilingual.
-* The legacy FAQ is available at "qTranslate-X explained" website: [https://qtranslatexteam.wordpress.com/faq/](https://qtranslatexteam.wordpress.com/faq/ "qTranslate-X explained FAQ").
+* For the new installers, it may be useful to read [Startup Guide](https://github.com/qtranslate/qtranslate-xt/wiki/Startup-Guide/ "Startup Guide").
+* It is important to read [migration instructions](https://github.com/qtranslate/qtranslate-xt/wiki/Migration-Guide "Migration Guide"), if you previously used other multilingual plugin.
+* Read [Integration Guide](https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide "Integration Guide") when you need to make theme or other plugin custom fields to be multilingual.
+* For more detailed questions see our [technical FAQ](https://github.com/qtranslate/qtranslate-xt/wiki/FAQ).
 
 ### How to update qTranslate-XT with the last release?
 Since the -XT version is not available at wordpress.org, we recommend you to install [GitHub Updater](https://github.com/afragen/github-updater). This is is an awesome tool to update plugins from a git repo (with many other features). It checks regularly the last release available in github (from the `git tags`) and compares it to your current version (defined in the header of `qtranslate.php`). If a new release is available an update link will appear as for a regular plugin from Wordpress. The check is performed even if the plugin is deactivated.
@@ -64,6 +71,9 @@ Note for developers:
 * old releases may contain legacy headers that can become problematic. Be very cautious if you customize the updates for given branches!
 
 ## Upgrade Notice
+
+### 3.6.0
+New feature! The built-in modules replace the legacy plugins for integration. You have to **deactivate/reactivate qTranslate-XT** to detect the active modules. See [README.md](https://github.com/qtranslate/qtranslate-xt/blob/master/modules/README.md) in modules for more info.
 
 ### 3.5.3
 Fix REST API: no redirect allowed. Your rewrite rules should be updated by saving the permalink structures from the admin page.
@@ -83,7 +93,7 @@ Check the CHANGELOG.md for the full history.
 
 The previous issues have been duplicated to our new git repository. Please check the [git issues](https://github.com/qTranslate/qtranslate-xt/issues) before creating new ones.
 
-The [legacy issues](https://qtranslatexteam.wordpress.com/known-issues/) should also be reviewed before starting using the plugin.
+The [legacy issues](https://github.com/qtranslate/qtranslate-xt/wiki/Known-Issues) should also be reviewed before starting using the plugin.
 
 ## Credentials
 
@@ -92,8 +102,10 @@ The [legacy issues](https://qtranslatexteam.wordpress.com/known-issues/) should 
 
 ## Desirable Unimplemented Features
 
-* support for Gutenberg (!!)
-* support for translatable slugs (!)
-* support for WooCommerce (revive the add-on!)
-* unit/integration tests
-* legacy of [desirable features](https://qtranslatexteam.wordpress.com/desirable/).
+* refactor integration API, possibly without json files (i18n-config.json)
+* support for Gutenberg
+* support for translatable slugs
+* support for [localized hreflang](https://support.google.com/webmasters/answer/189077) with country/region codes (ISO 3166-1 alpha-2)
+* unit/integration tests, automated CI tests
+* utilities for DB maintenance (audit, cleanup)
+* legacy of [desirable features](https://github.com/qtranslate/qtranslate-xt/wiki/Legacy-Desirable-Features).

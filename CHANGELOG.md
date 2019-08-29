@@ -1,3 +1,41 @@
+### 3.6.2
+* Fix media library broken with ACF 5.8.3 (#718)
+* Fix ACF language values not validated (#710)
+* Fix ACF image field rendering (#708)
+* Fix ACF validation of url field (#703)
+
+### 3.6.1
+
+* New [Wiki pages](https://github.com/qtranslate/qtranslate-xt/wiki)! Help and doc hyperlinks now point to our internal Wiki.
+* Fix Jetpack: translate related post titles (#699), with a new module for Jetpack
+* Fix deprecated WC filters: product attributes (#686), woocommerce_add_cart_hash
+* Fix ACF post object titles not translated (#678)
+* Fix CSS for ACF admin field (#697)
+* Fix translation embedded content (#673), for fields given by oembed_response_data
+* Update vendor info in i18n-config.json (#702)
+* Update Hungarian localization to 3.6.0 (#692)
+
+### 3.6.0
+* New feature: the built-in **modules** replace the legacy integration plugins. You have to **deactivate/reactivate qTranslate-XT** to detect the active modules. See the integration tab and the main modules [README](https://github.com/qtranslate/qtranslate-xt/blob/master/modules/README.md) for more info.
+* New modules: ACF, All in One SEO Pack, Events Made Easy, Gravity Forms, WooCommerce. Note: these modules have been converted from the last available versions of the legacy plugins, but they still remain the same. See each module README for more info.
+* Fix CSS admin notices (#664)
+* Cleanup obsolete admin version notices. The version options become obsolete (`qtranslate_version_previous, qtranslate_versions`).
+
+### 3.5.5
+* Adds support for Composer (#659)
+* Fix no LSB on categories (#643): this issue occurred with NextGen Gallery but there might be other plugins concerned.
+* Code cleanup: fix potential minor bugs with variables overwritten in loops, fix missing returns, undefined variables, unused local variables, reformat json
+* Fix potential minor bug with the terms names (get_term_args)
+* Revert to legacy suffix for integration config files (searched in "-qtranslate-x" folders instead of "-qtranslate-xt") for consistency with legacy online documentation
+* Fix typo in qtranxf_find_plugin_by_folder (deprecate old version with errated name)
+
+### 3.5.4
+* Shorten front-end message for alternative content (#655). The long part "For the sake of convenience... " is removed, for sake of convenience. Only the first part with the available languages is kept, also sent in the 'i18n_content_translation_not_available' filter.
+* Disambiguate the admin options for untranslated content: clarify descriptions, reorder by relevance.
+* Fix JS loading for early get_ctx (#650) for better admin-side integration. Could lead to LSB not shown (qTranslateConfig.js.get_qtx() not declared).
+* Fix no CSPRNG for gettext DB update (#649). Could raise PHP Fatal error : 'no suitable CSPRNG installed' when cryptographic libraries are missing.
+* Fix date periods for DST (#653) by using strtime() instead of time() + sec. Could affect some admin checks, notices and cookie expirations (very minor impacts).
+
 ### 3.5.3
 * Fix REST API: no redirect allowed (PR #621, issues #609, #575, #528, #489, #427). NOTE: your rewrite rules should be updated by saving the permalink structures from the admin page.
 * Fix warning PHP 7.3

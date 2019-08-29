@@ -70,14 +70,14 @@ function qtranxf_language_form( $form_action, $button_name, $nonce_action ) {
                 <p class="qtranxs-notes"><?php _e( 'Choose the corresponding country flag for language. (Example: gb.png)', 'qtranslate' ) ?></p>
             </div>
             <script type="text/javascript">
-                //<![CDATA[
-                function switch_flag(url) {
-                    document.getElementById('preview_flag').style.display = "inline";
-                    document.getElementById('preview_flag').src = "<?php echo qtranxf_flag_location() ?>" + url;
-                }
+				//<![CDATA[
+				function switch_flag(url) {
+					document.getElementById('preview_flag').style.display = "inline";
+					document.getElementById('preview_flag').src = "<?php echo qtranxf_flag_location() ?>" + url;
+				}
 
-                switch_flag(document.getElementById('language_flag').value);
-                //]]>
+				switch_flag(document.getElementById('language_flag').value);
+				//]]>
             </script>
             <div class="form-field">
                 <label for="language_name"><?php _e( 'Name', 'qtranslate' );
@@ -177,7 +177,7 @@ function qtranxf_get_admin_sections() {
 }
 
 function qtranxf_conf() {
-	global $q_config, $qtranslate_options, $wpdb;
+	global $q_config;
 	//qtranxf_dbg_log('qtranxf_conf: REQUEST_TIME_FLOAT: ', $_SERVER['REQUEST_TIME_FLOAT']);
 	//qtranxf_dbg_log('qtranxf_conf: POST: ',$_POST);
 	//qtranxf_dbg_log('qtranxf_conf: GET: ',$_GET);
@@ -217,7 +217,7 @@ function qtranxf_conf() {
         <h2><?php _e( 'Language Management (qTranslate Configuration)', 'qtranslate' ) ?></h2>
         <p class="qtranxs_heading"
            style="font-size: small"><?php printf( __( 'For help on how to configure qTranslate correctly, take a look at the <a href="%1$s">qTranslate FAQ</a> and the <a href="%2$s">Support Forum</a>.', 'qtranslate' )
-				, 'https://qtranslatexteam.wordpress.com/faq/'
+				, 'https://github.com/qtranslate/qtranslate-xt/wiki/FAQ'
 				, 'https://github.com/qTranslate/qtranslate-xt/issues'
 			);
 			?></p>
@@ -244,7 +244,7 @@ function qtranxf_conf() {
             <p class="qtranxs_explanation">
 				<?php printf( __( 'Review a combined JSON-encoded configuration as loaded from options %s and %s, as well as from the theme and other plugins via filters %s and %s.', 'qtranslate' ), '"' . __( 'Configuration Files', 'qtranslate' ) . '"', '"' . __( 'Custom Configuration', 'qtranslate' ) . '"', '"i18n_admin_config"', '"i18n_front_config"' );
 				echo ' ';
-				printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>' ); ?></p>
+				printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>' ); ?></p>
             <p class="qtranxs_explanation"><textarea class="widefat"
                                                      rows="30"><?php echo esc_textarea( str_replace( '[]', '{}', qtranxf_json_encode( $configs ) ) ); ?></textarea>
             </p>
@@ -364,27 +364,27 @@ function qtranxf_conf() {
                                 <br/>
                                 <label for="hide_untranslated"><input type="checkbox" name="hide_untranslated"
                                                                       id="hide_untranslated"
-                                                                      value="1"<?php checked( $q_config['hide_untranslated'] ) ?>/> <?php _e( 'Hide Content which is not available for the selected language.', 'qtranslate' ) ?>
+                                                                      value="1"<?php checked( $q_config['hide_untranslated'] ) ?>/> <?php _e( 'Hide posts which content is not available for the selected language.', 'qtranslate' ) ?>
                                 </label>
                                 <br/>
                                 <p class="qtranxs-notes"><?php _e( 'When checked, posts will be hidden if the content is not available for the selected language. If unchecked, a message will appear showing all the languages the content is available in.', 'qtranslate' ) ?>
 									<?php _e( 'The message about available languages for the content of a post or a page may also appear if a single post display with an untranslated content if viewed directly.', 'qtranslate' ) ?>
 									<?php printf( __( 'This function will not work correctly if you installed %s on a blog with existing entries. In this case you will need to take a look at option "%s" under "%s" section.', 'qtranslate' ), 'qTranslate', __( 'Convert Database', 'qtranslate' ), __( 'Import', 'qtranslate' ) . '/' . __( 'Export', 'qtranslate' ) ) ?></p>
                                 <br/>
-                                <label for="show_displayed_language_prefix"><input type="checkbox"
-                                                                                   name="show_displayed_language_prefix"
-                                                                                   id="show_displayed_language_prefix"
-                                                                                   value="1"<?php checked( $q_config['show_displayed_language_prefix'] ) ?>/> <?php _e( 'Show displayed language prefix when content is not available for the selected language.', 'qtranslate' ) ?>
-                                </label>
-                                <br/>
-                                <p class="qtranxs-notes"><?php _e( 'This is relevant to all fields other than the main content of posts and pages. Such untranslated fields are always shown in an alternative available language, and will be prefixed with the language name in parentheses, if this option is on.', 'qtranslate' ) ?></p>
-                                <br/>
                                 <label for="show_alternative_content"><input type="checkbox"
                                                                              name="show_alternative_content"
                                                                              id="show_alternative_content"
-                                                                             value="1"<?php checked( $q_config['show_alternative_content'] ) ?>/> <?php _e( 'Show content in an alternative language when translation is not available for the selected language.', 'qtranslate' ) ?>
+                                                                             value="1"<?php checked( $q_config['show_alternative_content'] ) ?>/> <?php _e( 'Show post content in an alternative language when translation is not available for the selected language.', 'qtranslate' ) ?>
                                 </label>
                                 <p class="qtranxs-notes"><?php printf( __( 'When a page or a post with an untranslated content is viewed, a message with a list of other available languages is displayed, in which languages are ordered as defined by option "%s". If this option is on, then the content of the first available language will also be shown, instead of the expected language, for the sake of user convenience.', 'qtranslate' ), __( 'Default Language / Order', 'qtranslate' ) ) ?></p>
+                                <br/>
+                                <label for="show_displayed_language_prefix"><input type="checkbox"
+                                                                                   name="show_displayed_language_prefix"
+                                                                                   id="show_displayed_language_prefix"
+                                                                                   value="1"<?php checked( $q_config['show_displayed_language_prefix'] ) ?>/> <?php _e( 'Show displayed language prefix when field content is not available for the selected language.', 'qtranslate' ) ?>
+                                </label>
+                                <br/>
+                                <p class="qtranxs-notes"><?php _e( 'This is relevant to all fields other than the main content of posts and pages. Such untranslated fields are always shown in an alternative available language, and will be prefixed with the language name in parentheses, if this option is on.', 'qtranslate' ) ?></p>
                             </td>
                         </tr>
                         <tr>
@@ -477,7 +477,7 @@ function qtranxf_conf() {
                                                                            value="1"<?php checked( $q_config['disable_client_cookies'] );
 									disabled( $url_mode == QTX_URL_DOMAIN || $url_mode == QTX_URL_DOMAINS ) ?> /> <?php printf( __( 'Disable language client cookie "%s" (not recommended).', 'qtranslate' ), QTX_COOKIE_NAME_FRONT ) ?>
                                 </label>
-                                <p class="qtranxs-notes"><?php echo sprintf( __( 'Language cookie is auto-disabled for "%s" "Pre-Domain" and "Per-Domain", as language is always unambiguously defined by a url in those modes.', 'qtranslate' ), __( 'URL Modification Mode', 'qtranslate' ) ) . ' ' . sprintf( __( 'Otherwise, use this option with a caution, for simple enough sites only. If checked, the user choice of browsing language will not be saved between sessions and some AJAX calls may deliver unexpected language, as well as some undesired language switching during browsing may occur under certain themes (%sRead More%s).', 'qtranslate' ), '<a href="https://qtranslatexteam.wordpress.com/2015/02/26/browser-redirection-based-on-language/" target="_blank">', '</a>' ) ?></p>
+                                <p class="qtranxs-notes"><?php echo sprintf( __( 'Language cookie is auto-disabled for "%s" "Pre-Domain" and "Per-Domain", as language is always unambiguously defined by a url in those modes.', 'qtranslate' ), __( 'URL Modification Mode', 'qtranslate' ) ) . ' ' . sprintf( __( 'Otherwise, use this option with a caution, for simple enough sites only. If checked, the user choice of browsing language will not be saved between sessions and some AJAX calls may deliver unexpected language, as well as some undesired language switching during browsing may occur under certain themes (%sRead More%s).', 'qtranslate' ), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Browser-redirection" target="_blank">', '</a>' ) ?></p>
                                 <br/>
                                 <label for="use_secure_cookie"><input type="checkbox" name="use_secure_cookie"
                                                                       id="use_secure_cookie"
@@ -530,13 +530,13 @@ function qtranxf_conf() {
                                 <label for="filter_options_mode_all"><input type="radio" name="filter_options_mode"
                                                                             id="filter_options_mode_all"
                                                                             value=<?php echo '"' . QTX_FILTER_OPTIONS_ALL . '"';
-								                                            checked( $q_config['filter_options_mode'], QTX_FILTER_OPTIONS_ALL ) ?>/> <?php _e( 'Filter all WordPress options for translation at front-end. It may hurt performance of the site, but ensures that all options are translated.', 'qtranslate' ) ?> <?php _e( 'Starting from version 3.2.5, only options with multilingual content get filtered, which should help on performance issues.', 'qtranslate' ) ?>
+									checked( $q_config['filter_options_mode'], QTX_FILTER_OPTIONS_ALL ) ?>/> <?php _e( 'Filter all WordPress options for translation at front-end. It may hurt performance of the site, but ensures that all options are translated.', 'qtranslate' ) ?> <?php _e( 'Starting from version 3.2.5, only options with multilingual content get filtered, which should help on performance issues.', 'qtranslate' ) ?>
                                 </label>
                                 <br/>
                                 <label for="filter_options_mode_list"><input type="radio" name="filter_options_mode"
                                                                              id="filter_options_mode_list"
                                                                              value=<?php echo '"' . QTX_FILTER_OPTIONS_LIST . '"';
-								                                             checked( $q_config['filter_options_mode'], QTX_FILTER_OPTIONS_LIST ) ?>/> <?php _e( 'Translate only options listed below (for experts only):', 'qtranslate' ) ?>
+									checked( $q_config['filter_options_mode'], QTX_FILTER_OPTIONS_LIST ) ?>/> <?php _e( 'Translate only options listed below (for experts only):', 'qtranslate' ) ?>
                                 </label>
                                 <br/>
                                 <input type="text" name="filter_options" id="qtranxs_filter_options"
@@ -672,10 +672,43 @@ function qtranxf_conf() {
                     <table class="form-table qtranxs-form-table" id="qtranxs_integration_config">
                         <tr>
                             <td colspan="2"><p class="heading">
-									<?php printf( __( 'If your theme or some plugins are not fully integrated with %s, suggest their authors to review the %sIntegration Guide%s. In many cases they would only need to create a simple text file in order to be fully compatible with %s. Alternatively, you may create such a file for them and for yourselves.', 'qtranslate' ), 'qTranslate&#8209;XT', '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>', 'qTranslate&#8209;XT' );
+									<?php printf( __( 'If your theme or some plugins are not fully integrated with %s, suggest their authors to review the %sIntegration Guide%s. In many cases they would only need to create a simple text file in order to be fully compatible with %s. Alternatively, you may create such a file for them and for yourselves.', 'qtranslate' ), 'qTranslate&#8209;XT', '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>', 'qTranslate&#8209;XT' );
 									echo ' ';
-									printf( __( 'Read %sIntegration Guide%s for more information on how to customize the configuration of %s.', 'qtranslate' ), '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>', 'qTranslate&#8209;XT' ); ?>
+									printf( __( 'Read %sIntegration Guide%s for more information on how to customize the configuration of %s.', 'qtranslate' ), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>', 'qTranslate&#8209;XT' ); ?>
                                 </p></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'Built-in Modules', 'qtranslate' ) ?></th>
+                            <td>
+                                <label for="qtranxs_modules"
+                                       class="qtranxs_explanation"><?php _e( 'The built-in integration modules are automatically enabled if the related plugin is active and no incompatible plugin (e.g. legacy integration plugin) prevents them to be loaded.', 'qtranslate' ); ?></label>
+                                <br/>
+                                <table id="qtranxs_modules" class="widefat">
+                                    <thead>
+                                    <tr>
+                                        <th class="row-title"><?php _ex( 'Name', 'Modules table header', 'qtranslate' ); ?></th>
+                                        <th><?php _ex( 'Plugin', 'Modules table header', 'qtranslate' ); ?></th>
+                                        <th><?php _ex( 'Module', 'Modules table header', 'qtranslate' ); ?></th>
+                                        <th><?php _ex( 'Status', 'Modules table header', 'qtranslate' ); ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+									<?php
+									$modules = QTX_Admin_Modules::get_modules_infos();
+									foreach ( $modules as $module ):
+										?>
+                                        <tr>
+                                            <td><?php echo $module['name'] ?></td>
+                                            <td><?php echo $module['plugin'] ?></td>
+                                            <td><?php echo $module['module'] ?></td>
+                                            <td style="color: <?php echo $module['color'] ?>">
+                                                <span class="dashicons <?php echo $module['icon'] ?>"></span>
+                                            </td>
+                                        </tr>
+									<?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row"><?php _e( 'Configuration Files', 'qtranslate' ) ?></th>
@@ -687,7 +720,7 @@ function qtranxf_conf() {
 									echo ' ';
 									printf( __( 'Use "%s" to review the resulting combined configuration from all "%s" and this option.', 'qtranslate' ), '<a href="' . admin_url( 'options-general.php?page=qtranslate-xt&config_inspector=show' ) . '">' . __( 'Configuration Inspector', 'qtranslate' ) . '</a>', __( 'Custom Configuration', 'qtranslate' ) );
 									echo ' ';
-									printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>' );
+									printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>' );
 									echo ' ' . __( 'To reset to default, clear the text.', 'qtranslate' ) ?></p>
                             </td>
                         </tr>
@@ -703,7 +736,7 @@ function qtranxf_conf() {
 										echo qtranxf_json_encode( $q_config['custom_i18n_config'] ) ?></textarea>
                                 <p class="qtranxs-notes"><?php printf( __( 'It would make no difference, if the content of this field is stored in a file, which name is listed last in option "%s". Therefore, this field only provides flexibility for the sake of convenience.', 'qtranslate' ), __( 'Configuration Files', 'qtranslate' ) );
 									echo ' ';
-									printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>' );
+									printf( __( 'Please, read %sIntegration Guide%s for more information.', 'qtranslate' ), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>' );
 									echo ' ';
 									printf( __( 'Use "%s" to review the resulting combined configuration from all "%s" and this option.', 'qtranslate' ), '<a href="' . admin_url( 'options-general.php?page=qtranslate-xt&config_inspector=show' ) . '">' . __( 'Configuration Inspector', 'qtranslate' ) . '</a>', __( 'Configuration Files', 'qtranslate' ) );
 									?></p>
@@ -712,7 +745,7 @@ function qtranxf_conf() {
                         <tr>
                             <th scope="row"><?php _e( 'Custom Fields', 'qtranslate' ) ?></th>
                             <td><p class="qtranxs_explanation">
-									<?php printf( __( 'Enter "%s" or "%s" attribute of text fields from your theme, which you wish to translate. This applies to post, page and media editors (%s). To lookup "%s" or "%s", right-click on the field in the post or the page editor and choose "%s". Look for an attribute of the field named "%s" or "%s". Enter it below, as many as you need, space- or comma-separated. After saving configuration, these fields will start responding to the language switching buttons, and you can enter different text for each language. The input fields of type %s will be parsed using %s syntax, while single line text fields will use %s syntax. If you need to override this behaviour, prepend prefix %s or %s to the name of the field to specify which syntax to use. For more information, read %sFAQ%s.', 'qtranslate' ), 'id', 'class', '/wp-admin/post*', 'id', 'class', _x( 'Inspect Element', 'browser option', 'qtranslate' ), 'id', 'class', '\'textarea\'', esc_html( '<!--:-->' ), '[:]', esc_html( '\'<\'' ), '\'[\'', '<a href="https://qtranslatexteam.wordpress.com/faq/">', '</a>' ) ?></p>
+									<?php printf( __( 'Enter "%s" or "%s" attribute of text fields from your theme, which you wish to translate. This applies to post, page and media editors (%s). To lookup "%s" or "%s", right-click on the field in the post or the page editor and choose "%s". Look for an attribute of the field named "%s" or "%s". Enter it below, as many as you need, space- or comma-separated. After saving configuration, these fields will start responding to the language switching buttons, and you can enter different text for each language. The input fields of type %s will be parsed using %s syntax, while single line text fields will use %s syntax. If you need to override this behaviour, prepend prefix %s or %s to the name of the field to specify which syntax to use. For more information, read %sFAQ%s.', 'qtranslate' ), 'id', 'class', '/wp-admin/post*', 'id', 'class', _x( 'Inspect Element', 'browser option', 'qtranslate' ), 'id', 'class', '\'textarea\'', esc_html( '<!--:-->' ), '[:]', esc_html( '\'<\'' ), '\'[\'', '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/FAQ#custom-fields">', '</a>' ) ?></p>
                             </td>
                         </tr>
                         <tr>
@@ -739,14 +772,14 @@ function qtranxf_conf() {
                                     <input type="text" name="text_field_filters" id="qtranxs_text_field_filters"
                                            value="<?php echo implode( ' ', $q_config['text_field_filters'] ) ?>"
                                            style="width:100%"></label>
-                                <p class="qtranxs-notes"><?php printf( __( 'Names of filters (which are enabled on theme or other plugins via %s function) to add translation to. For more information, read %sFAQ%s.', 'qtranslate' ), 'apply_filters()', '<a href="https://qtranslatexteam.wordpress.com/faq/#CustomFields">', '</a>' ) ?></p>
+                                <p class="qtranxs-notes"><?php printf( __( 'Names of filters (which are enabled on theme or other plugins via %s function) to add translation to. For more information, read %sFAQ%s.', 'qtranslate' ), 'apply_filters()', '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/FAQ#custom-fields">', '</a>' ) ?></p>
                             </td>
                         </tr>
 						<?php /* ?>
 			<tr>
 				<th scope="row"><?php _e('Custom Admin Pages', 'qtranslate') ?></th>
 				<td><label for="qtranxs_custom_pages" class="qtranxs_explanation"><input type="text" name="custom_pages" id="qtranxs_custom_pages" value="<?php echo implode(' ',$q_config['custom_pages']) ?>" style="width:100%"></label>
-					<p class="qtranxs-notes"><?php printf(__('List the custom admin page paths for which you wish Language Switching Buttons to show up. The Buttons will then control fields configured in "Custom Fields" section. You may only include part of the full URL after %s, including a distinctive query string if needed. As many as desired pages can be listed space/comma separated. For more information, read %sFAQ%s.', 'qtranslate'),'/wp-admin/','<a href="https://qtranslatexteam.wordpress.com/faq/">','</a>') ?></p>
+					<p class="qtranxs-notes"><?php printf(__('List the custom admin page paths for which you wish Language Switching Buttons to show up. The Buttons will then control fields configured in "Custom Fields" section. You may only include part of the full URL after %s, including a distinctive query string if needed. As many as desired pages can be listed space/comma separated. For more information, read %sFAQ%s.', 'qtranslate'),'/wp-admin/','<a href="https://github.com/qtranslate/qtranslate-xt/wiki/FAQ">','</a>') ?></p>
 				</td>
 			</tr>
 			<?php */ ?>
