@@ -13,7 +13,7 @@ function qtranxf_slug_config($request_uri) {
 	<tr>
 		<th scope="row"><?php _e('Translate Slugs', 'qtranslate') ?></th>
 		<td><input type="checkbox" name="slugs" id="qtranxs_slugs"<?php checked(!empty($q_config['slugs'])) ?>  value="1" /><label for="qtranxs_slugs" class="qtranxs_explanation"><?php printf(__('Enable multilingual URL slugs for posts, pages, categories, post types, tags, etc.', 'qtranslate')) ?></label>
-		<p class="qtranxs-notes"><?php printf(__('Make sure to deactivate all other 3rd-party slug services. You may need to %simport slug data%s from other slug-plugins upon activation this service. Please, read %sMigration Guide%s for more information.', 'qtranslate'), '<a href="'.$request_uri.'#import">', '</a>', '<a href="https://qtranslatexteam.wordpress.com/migration/" target="_blank">', '</a>') ?></p>
+		<p class="qtranxs-notes"><?php printf(__('Make sure to deactivate all other 3rd-party slug services. You may need to %simport slug data%s from other slug-plugins upon activation this service. Please, read %sMigration Guide%s for more information.', 'qtranslate'), '<a href="'.$request_uri.'#import">', '</a>', '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Migration-Guide" target="_blank">', '</a>') ?></p>
 		</td>
 	</tr>
 	<tr><td colspan="2" id="qtranxf_slug_lsb_top"></td></tr>
@@ -76,7 +76,6 @@ function qtranxf_slug_admin_fields($objects, $type){
 }
 
 function qtranxf_slug_admin_field($type, $label, $slug){
-	global $q_config;
 	$opnm = 'slugs_'.$type;
 	$name = $opnm.'['.$slug.']';
 	$val = qtranxf_slug_multilingual($slug);
@@ -100,7 +99,7 @@ function qtranxf_slug_update_translations_of($group, $group_name, $default_lang,
 		//qtranxf_dbg_log('qtranxf_slug_update_translations_of: old: $wp_group['.$name_old.']: ', $wp_group[$name_old]);
 		if($name != $name_old){
 			if(isset($wp_group[$name_old])){
-				qtranxf_add_warning(sprintf(__('The slug for %s "%s" for default language cannot be changed to "%s" on this page, because it is not known here which tool created it and for what purpose. Please, update this slug on the page where it is originated from. It may be required then to come back here to update the translations, unless the other plugin or theme is %sintegrated%s with %s.', 'qtranslate'), $group_name, $name_old, $name, '<a href="https://qtranslatexteam.wordpress.com/integration/" target="_blank">', '</a>', 'qTranslate&#8209;X'));
+				qtranxf_add_warning(sprintf(__('The slug for %s "%s" for default language cannot be changed to "%s" on this page, because it is not known here which tool created it and for what purpose. Please, update this slug on the page where it is originated from. It may be required then to come back here to update the translations, unless the other plugin or theme is %sintegrated%s with %s.', 'qtranslate'), $group_name, $name_old, $name, '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Integration-Guide" target="_blank">', '</a>', 'qTranslate&#8209;XT'));
 				$qfields[$default_lang] = $name = $name_old;
 			}else{
 				$slugs_old = qtranxf_slug_get_translations($name_old);
@@ -161,28 +160,29 @@ function qtranxf_migrate_import_qtranslate_slug(){
 		//$sql = 'INSERT INTO '.$wpdb->prefix.'posts_i18n (ID, lang, slug) VALUES (%s, %s, %s)';
 		$sql = 'INSERT INTO '.$wpdb->prefix.'i18n_slugs (slug, lang, name) VALUES (%s, %s, %s)';
 		foreach($result as $row) {
-			$slug = $row->meta_value;
-			$lang = substr($row->meta_key,-2);
+			// todo
+			// $slug = $row->meta_value;
+			$lang = substr( $row->meta_key,-2);
 			$name = $row->post_name;
-			if($lang == $default_language){
-				if($slug != $name){
-	//qtranxf_dbg_log('qtranxf_migrate_import_qtranslate_slug: $slug('.$slug.') != $name('.$name.')');
-					//todo
-				}
-			}else{
+//			if($lang == $default_language){
+//				if($slug != $name){
+//	                //qtranxf_dbg_log('qtranxf_migrate_import_qtranslate_slug: $slug('.$slug.') != $name('.$name.')');
+//				}
+//			}
+			if($lang != $default_language){
 				$slug = qtranxf_slug_unique($row->meta_value,$lang,$name);
-				if($slug != $row->meta_value){
-					//todo report
-				}
-	//qtranxf_dbg_log('qtranxf_migrate_import_qtranslate_slug: $lang='.$lang.'; row: ', $row);
+				// todo report
+//				if($slug != $row->meta_value){
+//				}
+	            //qtranxf_dbg_log('qtranxf_migrate_import_qtranslate_slug: $lang='.$lang.'; row: ', $row);
 				//$query = $wpdb->prepare($sql, $row->post_id, $lang, $row->meta_value);
 				$query = $wpdb->prepare($sql, $slug, $lang, $row->post_name );
 				$wpdb->query($query);
 			}
 		}
-		qtranxf_add_message(sprintf(__('Applicable options and slug data from plugin %s have been imported.', 'qtranslate'), $nm).' '.sprintf(__('It might be a good idea to review %smigration instructions%s, if you have not yet done so.', 'qtranslate'),'<a href="https://qtranslatexteam.wordpress.com/migration/" target="_blank">','</a>'));
+		qtranxf_add_message(sprintf(__('Applicable options and slug data from plugin %s have been imported.', 'qtranslate'), $nm).' '.sprintf(__('It might be a good idea to review %smigration instructions%s, if you have not yet done so.', 'qtranslate'),'<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Migration-Guide" target="_blank">','</a>'));
 	}else{
-		qtranxf_error_log(sprintf(__('Failed to import data from plugin %s.', 'qtranslate'), $nm).' '.sprintf(__('It might be a good idea to review %smigration instructions%s, if you have not yet done so.', 'qtranslate'), '<a href="https://qtranslatexteam.wordpress.com/migration/" target="_blank">', '</a>'));
+		qtranxf_error_log(sprintf(__('Failed to import data from plugin %s.', 'qtranslate'), $nm).' '.sprintf(__('It might be a good idea to review %smigration instructions%s, if you have not yet done so.', 'qtranslate'), '<a href="https://github.com/qtranslate/qtranslate-xt/wiki/Migration-Guide" target="_blank">', '</a>'));
 	}
 }
 

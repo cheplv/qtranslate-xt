@@ -44,7 +44,7 @@ function qtranxf_localeForCurrentLanguage( $locale ) {
 		if ( ! in_array( $loc, $lc2 ) ) {
 			$lc2[] = $loc;
 		}
-		$loc = setlocale( LC_TIME, $lc2 );
+		setlocale( LC_TIME, $lc2 );
 		//if(!$loc) qtranxf_error_log(sprintf('Could not set locale with setlocale(LC_TIME, %s).', json_encode(array_merge($lc, $lc2))));
 	}
 
@@ -199,3 +199,5 @@ add_filter( 'pre_option_rss_language', 'qtranxf_getLanguage', 0 );
 add_filter( '_wp_post_revision_field_post_title', 'qtranxf_showAllSeparated', 0 );
 add_filter( '_wp_post_revision_field_post_content', 'qtranxf_showAllSeparated', 0 );
 add_filter( '_wp_post_revision_field_post_excerpt', 'qtranxf_showAllSeparated', 0 );
+
+add_filter( 'oembed_response_data', 'qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage' );
